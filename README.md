@@ -18,7 +18,7 @@ A comprehensive and automated setup tool for installing **ROS 2 Humble**, **Webo
 ## 🧰 Project Structure
 
 ```
-Ros-webots-installer/
+ROS-2-Humble-Webots-R2025a-Integration-Manager/
 ├── LICENSE
 ├── README.md
 └── scripts
@@ -27,12 +27,6 @@ Ros-webots-installer/
     ├── ros-webots-installer.sh
     └── uninstall-ros-humble.sh
 
-├── LICENSE
-├── README.md                     # ← This file
-├── install-ros-humble.sh         # Step 1: Install ROS 2 Humble
-├── uninstall-ros-humble.sh       # Step 1a: Uninstall ROS 2 Humble
-├── install-webots-ros2.sh        # Step 2: Install Webots + webots_ros2
-├── ros-webots-installer.sh       # Optional combined manager (menu-driven)
 ```
 
 ---
