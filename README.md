@@ -1,107 +1,88 @@
-# 🤖 ROS 2 Humble + Webots Integration Installer Toolkit
+# 🤖 ROS 2 Humble + Webots R2025a Installer Toolkit
 
-A comprehensive and automated setup tool for installing **ROS 2 Humble**, **Webots R2025a**, and the **webots\_ros2** interface on **Ubuntu 22.04**. This project provides step-by-step scripts for a smooth and repeatable setup process, ideal for simulation projects such as robotics control, auto-landing, and swarm behavior.
+This repository provides a structured and automated installation flow for:
 
----
+1. 🧠 **ROS 2 Humble** – The standard robotics middleware
+2. 🌍 **Webots R2025a** – Powerful robot simulator by Cyberbotics
+3. 🔁 **webots\_ros2** – ROS–Webots integration layer
 
-## 📦 Features
-
-* ✅ Full installation of **ROS 2 Humble** (desktop version)
-* ✅ Clean **uninstallation** for reset or reinstall
-* ✅ Official **Webots** simulator installation
-* ✅ **webots\_ros2** bridge integration using `rosdep` & `colcon`
-* ✅ Structured into 3 clear steps
-* ✅ Shell-friendly and fully automatable
+Designed for robotics researchers, students, and developers who want a **clean, modular setup** using shell scripts. Each script is isolated per task for better control and troubleshooting.
 
 ---
 
-## 🧰 Project Structure
+## 📂 Project Structure
 
 ```
-ROS-2-Humble-Webots-R2025a-Integration-Manager/
-├── LICENSE
-├── README.md
-└── scripts
-    ├── install-ros-humble.sh
-    ├── install-webots-ros2.sh
-    ├── ros-webots-installer.sh
-    └── uninstall-ros-humble.sh
-
+ros2-webots-installer/
+├── LICENSE                        # Project license (MIT recommended)
+├── README.md                      # This documentation file
+└── scripts/                       # All shell automation scripts
+    ├── 1a-install-ros-humble.sh      # Step 1a: Install ROS 2 Humble (Ubuntu 22.04)
+    ├── 1b-uninstall-ros2-humble.sh   # Step 1b: Optional uninstall script
+    ├── 2-install-webots-r2025a.sh    # Step 2: Install Webots R2025a
+    └── 3-webots-ros2-project.sh      # Step 3: Setup webots_ros2 bridge (from source)
 ```
 
 ---
 
-## 🖥️ Requirements
+## 🛠️ Requirements
 
-* **Ubuntu 22.04 LTS** only
-* Internet connection
-* Admin (sudo) access
-* Fresh terminal (ensure `.bashrc` loads correctly)
-
----
-
-## 🚀 Installation Steps
-
-### ⚙️ Step 1: Install ROS 2 Humble
-
-Run the ROS 2 installer script:
-
-```bash
-./install-ros-humble.sh
-```
-
-**What it does:**
-
-* Adds ROS 2 APT repository
-* Installs `ros-humble-desktop` (RViz, demos, etc.)
-* Installs `colcon`, `rosdep`, and setup tools
-* Initializes `rosdep` and updates
-* Sources ROS environment to `~/.bashrc`
-
-✅ At the end, run this in any new terminal to activate:
-
-```bash
-source /opt/ros/humble/setup.bash
-```
-
-### 🔁 (Optional) Step 1a: Uninstall ROS 2
-
-To **completely remove** all ROS 2 Humble packages:
-
-```bash
-./uninstall-ros-humble.sh
-```
-
-**What it removes:**
-
-* All `ros-humble-*` packages
-* `/opt/ros/humble` installation directory
-* Cleans `.bashrc` from any sourcing lines
-* Option to delete `~/ros2_ws` or other user-created workspaces
+* ✅ Ubuntu 22.04 LTS
+* ✅ Internet access
+* ✅ Sudo privileges
+* ✅ Fresh terminal session for proper sourcing
 
 ---
 
-### 🛠️ Step 2: Install Webots & ROS2 Bridge
+## 📦 Installation Steps
+
+### 🧱 Step 1a – Install ROS 2 Humble
 
 ```bash
-./install-webots-ros2.sh
+chmod +x scripts/1a-install-ros-humble.sh
+./scripts/1a-install-ros-humble.sh
 ```
 
-**What this script does:**
+🔧 What it does:
 
-* Installs Webots simulator via Cyberbotics APT repo
-* Sets up `webots_ros2` from source in a new workspace: `~/webots_ws`
-* Clones official [webots\_ros2](https://github.com/cyberbotics/webots_ros2) packages
-* Resolves ROS 2 dependencies via `rosdep install`
-* Builds with `colcon build` and sets up shell environment
+* Adds ROS 2 apt sources
+* Installs `ros-humble-desktop`
+* Sets up `rosdep`, `colcon`, and necessary environment variables
+* Appends to your `~/.bashrc`:
 
-✅ ROS workspace setup:
+  ```bash
+  source /opt/ros/humble/setup.bash
+  ```
+
+### 🧹 Step 1b – Uninstall ROS 2 (Optional Reset)
 
 ```bash
-source ~/webots_ws/install/setup.bash
+chmod +x scripts/1b-uninstall-ros2-humble.sh
+./scripts/1b-uninstall-ros2-humble.sh
 ```
 
-Webots is now accessible with:
+This will:
+
+* Remove all `ros-humble-*` packages
+* Delete `/opt/ros/humble/`
+* Clean up `.bashrc` from ROS environment variables
+
+---
+
+### 🌐 Step 2 – Install Webots R2025a
+
+```bash
+chmod +x scripts/2-install-webots-r2025a.sh
+./scripts/2-install-webots-r2025a.sh
+```
+
+🎯 What this script does:
+
+* Adds Cyberbotics APT key and repo
+* Installs `webots` (non-snap)
+* Installs dependencies like `git`, `curl`, and `python3-vcstool`
+
+You can now run Webots with:
 
 ```bash
 webots
@@ -109,68 +90,60 @@ webots
 
 ---
 
-### 🧩 Step 3: Use Webots–ROS 2 Integration
-
-After completing both Step 1 and 2, you can launch simulations using `webots_ros2` launch files. Example:
+### 🔗 Step 3 – Setup `webots_ros2` Project
 
 ```bash
-cd ~/webots_ws
-source install/setup.bash
+chmod +x scripts/3-webots-ros2-project.sh
+./scripts/3-webots-ros2-project.sh
+```
+
+🧩 This script will:
+
+* Create `~/webots_ws/` ROS workspace
+* Clone the latest [webots\_ros2](https://github.com/cyberbotics/webots_ros2) repository
+* Use `rosdep` to resolve dependencies
+* Build the workspace with `colcon`
+* Source the workspace:
+
+  ```bash
+  source ~/webots_ws/install/setup.bash
+  ```
+
+---
+
+## 🚀 Quick Start After Setup
+
+```bash
+source /opt/ros/humble/setup.bash
+source ~/webots_ws/install/setup.bash
 ros2 launch webots_ros2_turtlebot robot_launch.py
 ```
 
-You may use your own `.wbt` world and custom controllers via the Webots IDE or terminal.
+---
+
+## 🔁 Typical Use Cases
+
+* Run robot simulation in Webots with ROS 2 nodes
+* Integrate Webots vision or LiDAR data with ROS 2 pipelines
+* Build your own controllers or planners using ROS 2 + Webots
 
 ---
 
-## 🧠 Extra: All-in-One Menu
+## 💡 Tips & Troubleshooting
 
-Prefer an interactive menu? Use the master installer:
+* If `rosdep` fails, try:
 
-```bash
-./ros-webots-installer.sh
-```
+  ```bash
+  sudo rosdep init
+  rosdep update
+  ```
+* Always source the environments before launching:
 
-It presents:
-
-```
-🤖 ROS 2 & Webots Installation Manager
-======================================
-  [1] Install ROS Humble + Webots R2025a
-  [2] Uninstall All Components
-  [3] Exit
-```
-
-> It logs all actions to `ros_webots_install_<timestamp>.log` for tracking.
-
----
-
-## 🧹 Cleanup / Reset
-
-To **reset everything**:
-
-```bash
-./ros-webots-installer.sh     # then choose option [2]
-```
-
-Or remove each part individually:
-
-```bash
-./uninstall-ros-humble.sh
-sudo apt remove webots
-rm -rf ~/webots_ws
-```
-
----
-
-## 📌 Notes & Tips
-
-* Always **source setup files** after installing:
-
-  * `source /opt/ros/humble/setup.bash`
-  * `source ~/webots_ws/install/setup.bash`
-* If using multiple terminals, add them to your `.bashrc`
-* You can customize your ROS 2 workspace (`src` folder) by adding your own packages
+  ```bash
+  source /opt/ros/humble/setup.bash
+  source ~/webots_ws/install/setup.bash
+  ```
+* For custom `.wbt` worlds or controllers, add them under your workspace or open directly in Webots GUI.
 
 ---
 
@@ -180,10 +153,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ---
 
-## 🙋‍♂️ Maintainer
+## 🙋 Author
 
 **Ardy Seto Priambodo**
-🔗 [robot-terbang.web.id](http://robot-terbang.web.id)
-💬 [Telegram Group](http://t.me/robot_terbang)
-
----
