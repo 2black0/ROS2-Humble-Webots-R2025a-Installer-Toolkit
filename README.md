@@ -13,7 +13,7 @@ Designed for robotics researchers, students, and developers who want a **clean, 
 ## 📂 Project Structure
 
 ```
-ros2-webots-installer/
+ROS2-Humble-Webots-R2025a-Installer-Toolkit/
 ├── LICENSE                        # Project license (MIT recommended)
 ├── README.md                      # This documentation file
 └── scripts/                       # All shell automation scripts
